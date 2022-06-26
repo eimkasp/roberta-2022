@@ -3,7 +3,7 @@ console.log(messageData);
 var flowerCount = 0;
 var flowerCountEim = 0;
 var flowerCountRob = 0;
-
+var emoji = "\u00f0\u009f\u008c\u00b9";
 var loveDictionary = {};
 
 for (i = 0; i < messageData.messages.length; i++) {
@@ -12,7 +12,20 @@ for (i = 0; i < messageData.messages.length; i++) {
     var message = messageData.messages[i];
 
     if (message.content) {
-        console.log(message.content);
+        console.log(message);
+
+        if(message.content.includes(emoji)) {
+            console.log("Includes");
+            flowerCount++;
+            // Count EIM flowers
+            if(message.sender_name.includes('Eimantas')) {
+                flowerCountEim++;
+            }
+            if(message.sender_name.includes('Roberta')) {
+                flowerCountRob++;
+            }
+        }
+
 
         // Make top words dictionary
 
@@ -20,33 +33,37 @@ for (i = 0; i < messageData.messages.length; i++) {
         console.log(words);
 
         for (let j = 0; j < words.length; j++) {
-            if (loveDictionary[words[j]]) {
-                loveDictionary[words[j]]++;
+            var word = words[j].toLowerCase();
+            if (loveDictionary[word]) {
+                loveDictionary[word]++;
             } else {
-                loveDictionary[words[j]] = 1;
+                loveDictionary[word] = 1;
             }
         }
         // END Make top words dictionary
-
-
-
     }
-
-
-
-
-
-
-
-
-    // sleep(1000);
-
 }
+
+/* Statistics */
+console.log("Total Flower Count" + flowerCount);
+console.log("Total EIM Count" + flowerCountEim);
+console.log("Total Rob Count" + flowerCountRob);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector("#total-flowers").innerHTML = flowerCount;
+    document.querySelector("#total-flowers-eim").innerHTML = flowerCountEim;
+    document.querySelector("#total-flowers-rob").innerHTML = flowerCountRob;
+});
+
+/* End statistics */
 
 /* Refference: https://stackoverflow.com/a/68523626/1028193 */
 // if keys are numbers
 var arr = sortObject(loveDictionary);
-console.log(arr); 
+console.log(arr);
+
+
 
 
 /* Reference: https://stackoverflow.com/questions/1069666/sorting-object-property-by-values */
@@ -60,18 +77,6 @@ function sortObject(obj) {
             });
         }
     }
-    arr.sort(function(a, b) { return a.value - b.value; });
-    //arr.sort(function(a, b) { a.value.toLowerCase().localeCompare(b.value.toLowerCase()); }); //use this to sort as strings
-    return arr; // returns array
-}
-
-
-// I need this ^^ :) :*
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            break;
-        }
-    }
+    arr.sort(function (a, b) { return b.value - a.value; });
+    return arr;
 }
