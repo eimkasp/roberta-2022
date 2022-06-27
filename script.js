@@ -11,6 +11,9 @@ var totalPictures = 1528; // Static value
 var totalVideos = 122; // Static value
 var totalVideos = 215; // Static value
 var totalVideos = 215; // Static value
+for (i = 0; i < messageData2.messages.length; i++) {
+    messageData.messages.push(messageData2.messages[i]);
+}
 
 for (i = 0; i < messageData.messages.length; i++) {
     var message = messageData.messages[i];
@@ -51,15 +54,19 @@ console.log("Total Rob Count" + flowerCountRob);
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector("#total-flowers").innerHTML = flowerCount;
+    var actualFlowerCount = flowerCountEim / 3;
+    document.querySelector("#total-flowers").innerHTML = flowerCount + ""; 
+    document.querySelector("#actual-flowers").innerHTML = (flowerCountEim + 1)/3; 
+    document.querySelector("#actual-flowers").innerHTML += ' Acutal flowers owned';
     document.querySelector("#total-flowers-eim").innerHTML = flowerCountEim;
     document.querySelector("#total-flowers-rob").innerHTML = flowerCountRob;
+    document.querySelector("#total-messages").innerHTML = messageData.messages.length;
 
     var arr = sortObject(loveDictionary);
     console.log(arr);
 
     var wordList = document.querySelector("#top-words");
-    for(let l = 0; l < 50; l++) {
+    for(let l = 0; l < 300; l++) {
         wordList.innerHTML += "<li class='p-3'>" + arr[l].key + "(" +  arr[l].value + ")</li>";
     }
 });
